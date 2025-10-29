@@ -74,12 +74,28 @@ class BasePanel(ScreenPanel):
             self.action_bar.set_vexpand(True)
         self.action_bar.get_style_context().add_class('action_bar')
         self.action_bar.set_size_request(self._gtk.action_bar_width, self._gtk.action_bar_height)
-        self.action_bar.add(self.control['back'])
+        # self.action_bar.add(self.control['back'])
+        # self.action_bar.add(self.control['home'])
+        # self.action_bar.add(self.control['printer_select'])
+        # self.action_bar.add(self.control['shortcut'])
+        # self.action_bar.add(self.control['estop'])
+        # self.action_bar.add(self.control['shutdown'])
+
+        # Add minimal menu buttons
+        self.control['home'] = self._gtk.Button('main', None, None, self.abscale)
+        self.control['move'] = self._gtk.Button('move', None, None, self.abscale)
+        self.control['more'] = self._gtk.Button('settings', None, None, self.abscale)
+
+        self.control['home'].connect("clicked", self._screen._menu_go_back, True)
+        self.control['move'].connect("clicked", self.menu_item_clicked, {"panel": "move"})
+        self.control['more'].connect("clicked", self._screen._go_to_submenu, "more")
+
+        # Add only the minimal set of buttons
         self.action_bar.add(self.control['home'])
-        self.action_bar.add(self.control['printer_select'])
-        self.action_bar.add(self.control['shortcut'])
-        self.action_bar.add(self.control['estop'])
+        self.action_bar.add(self.control['move'])
+        self.action_bar.add(self.control['more'])
         self.action_bar.add(self.control['shutdown'])
+
         self.show_printer_select(len(self._config.get_printers()) > 1)
 
         # Titlebar
