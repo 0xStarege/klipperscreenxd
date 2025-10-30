@@ -1,4 +1,5 @@
 import logging
+import os
 
 import gi
 
@@ -257,6 +258,21 @@ class Panel(MenuPanel):
         scroll.add(self.labels['devices'])
 
         self.left_panel = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+
+        # Optional thumbnail at the top of the left panel
+        # Replace this path with your desired thumbnail image path
+        thumbnail_path = "/home/pi/KlipperScreen/thumbnail.png"
+        if os.path.exists(thumbnail_path):
+            thumbnail = Gtk.Image.new_from_file(thumbnail_path)
+            thumbnail.set_hexpand(True)
+            thumbnail.set_vexpand(False)
+            self.left_panel.add(thumbnail)
+
+            label = Gtk.Label(label="Carbine P500")
+            label.set_halign(Gtk.Align.CENTER)
+            label.set_valign(Gtk.Align.FILL)
+            self.left_panel.add(label)
+
         self.left_panel.add(scroll)
 
         for d in self._printer.get_temp_devices():
