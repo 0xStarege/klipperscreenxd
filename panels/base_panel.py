@@ -84,15 +84,18 @@ class BasePanel(ScreenPanel):
         # Add minimal menu buttons
         self.control['home'] = self._gtk.Button('main', None, None, self.abscale)
         self.control['move'] = self._gtk.Button('move', None, None, self.abscale)
+        self.control['afc'] = self._gtk.Button('spool', None, None, self.abscale)
         self.control['more'] = self._gtk.Button('settings', None, None, self.abscale)
 
         self.control['home'].connect("clicked", self._screen._menu_go_back, True)
         self.control['move'].connect("clicked", self.menu_item_clicked, {"panel": "move"})
+        self.control['afc'].connect("clicked", self.menu_item_clicked, {"panel": "AFC"})
         self.control['more'].connect("clicked", self._screen._go_to_submenu, "more")
 
         # Add only the minimal set of buttons
         self.action_bar.add(self.control['home'])
         self.action_bar.add(self.control['move'])
+        self.action_bar.add(self.control['afc'])
         self.action_bar.add(self.control['more'])
         self.action_bar.add(self.control['shutdown'])
 
