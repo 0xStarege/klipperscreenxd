@@ -24,10 +24,6 @@
     font-family: RobotoMedium;
 }
 
-.action_bar {
-    border-right: 1px solid #424242;
-}
-
 junction,
 list row,
 treeview.view,
@@ -245,4 +241,18 @@ textview .time {
 
 .keyboard_pad {
     background-color: #090909;
+}
+
+/* new styles */
+
+.action_bar {
+    border-right: 1px solid #424242;
+}
+
+.title_bar {
+    border-bottom: 1px solid #424242;
+    padding-bottom: 0.3em;
+    padding-top: 0.3em;
+    padding-left: 0.3em;
+    /* padding-right: 0.5em; */
 }
