@@ -220,10 +220,33 @@ class BasePanel(ScreenPanel):
         self.wifi_status()
 
     def show_heaters(self, show=True):
+        # Check if we need to rebuild (avoid unnecessary refresh)
+        current_children_count = len(self.control['temp_box'].get_children())
+        
+        if self._printer is None or not show:
+            # Only clear if there are children
+            if current_children_count > 0:
+                for child in self.control['temp_box'].get_children():
+                    self.control['temp_box'].remove(child)
+            return
+        
+        # Check if heaters are already built and still valid
+        devices = self._printer.get_temp_devices()
+        if not devices:
+            if current_children_count > 0:
+                for child in self.control['temp_box'].get_children():
+                    self.control['temp_box'].remove(child)
+            return
+        
+        # Only rebuild if the number of devices/widgets doesn't match
+        # This prevents unnecessary refresh when switching panels
+        if current_children_count > 0 and hasattr(self, '_heaters_built'):
+            # Heaters already displayed, no need to rebuild
+            return
+        
+        # Clear and rebuild
         for child in self.control['temp_box'].get_children():
             self.control['temp_box'].remove(child)
-        if self._printer is None or not show:
-            return
         try:
             devices = self._printer.get_temp_devices()
             if not devices:
@@ -267,6 +290,8 @@ class BasePanel(ScreenPanel):
                         break
 
             self.control['temp_box'].show_all()
+            # Mark heaters as built
+            self._heaters_built = True
         except Exception as e:
             logging.debug(f"Couldn't create heaters box: {e}")
 
