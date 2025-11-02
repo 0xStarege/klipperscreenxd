@@ -256,3 +256,8 @@ textview .time {
     padding-left: 0.3em;
     /* padding-right: 0.5em; */
 }
+
+/* Content padding for all panels */
+.content {
+    padding-top: 0.1em;
+}
