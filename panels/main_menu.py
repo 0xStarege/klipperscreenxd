@@ -31,6 +31,7 @@ class Panel(MenuPanel):
 
         # Filter out some menu items we don't want shown here (icons still available elsewhere)
         menu_items = items or []
+
         def _is_afc(item_dict):
             key = list(item_dict)[0]
             val = item_dict[key]
@@ -261,7 +262,7 @@ class Panel(MenuPanel):
 
         # Optional thumbnail at the top of the left panel
         # Replace this path with your desired thumbnail image path
-        thumbnail_path = "/home/pi/KlipperScreen/thumbnail.png"
+        thumbnail_path = "/home/shubham/KlipperScreen/thumbnail.png"
         if os.path.exists(thumbnail_path):
             thumbnail = Gtk.Image.new_from_file(thumbnail_path)
             thumbnail.set_hexpand(True)

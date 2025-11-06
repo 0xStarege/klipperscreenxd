@@ -222,14 +222,14 @@ class BasePanel(ScreenPanel):
     def show_heaters(self, show=True):
         # Check if we need to rebuild (avoid unnecessary refresh)
         current_children_count = len(self.control['temp_box'].get_children())
-        
+
         if self._printer is None or not show:
             # Only clear if there are children
             if current_children_count > 0:
                 for child in self.control['temp_box'].get_children():
                     self.control['temp_box'].remove(child)
             return
-        
+
         # Check if heaters are already built and still valid
         devices = self._printer.get_temp_devices()
         if not devices:
@@ -237,13 +237,13 @@ class BasePanel(ScreenPanel):
                 for child in self.control['temp_box'].get_children():
                     self.control['temp_box'].remove(child)
             return
-        
+
         # Only rebuild if the number of devices/widgets doesn't match
         # This prevents unnecessary refresh when switching panels
         if current_children_count > 0 and hasattr(self, '_heaters_built'):
             # Heaters already displayed, no need to rebuild
             return
-        
+
         # Clear and rebuild
         for child in self.control['temp_box'].get_children():
             self.control['temp_box'].remove(child)
@@ -332,11 +332,11 @@ class BasePanel(ScreenPanel):
         self.show_shortcut(connected and printer_select)
         self.show_heaters(connected and printer_select)
         self.show_printer_select(len(self._config.get_printers()) > 1)
-        
+
         # Update control sensitivity based on current panel
         for control in ('back', 'home'):
             self.set_control_sensitive(len(self._screen._cur_panels) > 1, control=control)
-        
+
         # Set sensitivity for move and more buttons based on current panel
         self.set_control_sensitive(self._screen._cur_panels[-1] != "move", control='move')
         self.set_control_sensitive(self._screen._cur_panels[-1] != "more", control='more')
@@ -531,7 +531,7 @@ class BasePanel(ScreenPanel):
         if not sdbus_nm_available or self.sdbus_nm is None:
             self.control['wifi_box'].hide()
             return False
-        
+
         try:
             # Check if WiFi is enabled
             if not self.sdbus_nm.is_wifi_enabled():
@@ -543,7 +543,7 @@ class BasePanel(ScreenPanel):
                 connected_bssid = self.sdbus_nm.get_connected_bssid()
             except (AttributeError, TypeError):
                 connected_bssid = None
-                
+
             if connected_bssid:
                 networks = self.sdbus_nm.get_networks()
                 connected_network = next(
@@ -555,7 +555,7 @@ class BasePanel(ScreenPanel):
                     self.labels['wifi_icon'].set_from_pixbuf(self.get_wifi_icon(signal))
                     self.control['wifi_box'].show()
                     return True
-            
+
             # WiFi enabled but not connected
             self.labels['wifi_icon'].set_from_pixbuf(self.wifi_icons['unknown'])
             self.control['wifi_box'].show()
