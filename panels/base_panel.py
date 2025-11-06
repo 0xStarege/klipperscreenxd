@@ -205,13 +205,12 @@ class BasePanel(ScreenPanel):
         for button in self.action_bar.get_children():
             img = button.get_image()
             name = button.get_name()
-            pixbuf = img.get_pixbuf()
-            if pixbuf is not None:
-                size = pixbuf.get_width()
-            else:
-                logging.error(f"Couldn't get pixbuf for {name},"
-                              f"a custom theme may have caused this")
-                size = self._gtk.img_scale * self.abscale * 1.4
+            # Use the same scale calculation as Button() method
+            # When label is None, Button() multiplies scale by 1.4
+            # So: size = img_scale * abscale * 1.4
+            # This ensures consistent icon size across theme changes
+            scale = self.abscale * 1.4  # Match Button() behavior when label is None
+            size = self._gtk.img_scale * scale
             button.set_image(self._gtk.Image(name, size, size))
 
         self.battery_icons = self.load_battery_icons()
